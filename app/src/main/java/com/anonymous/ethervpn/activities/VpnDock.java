@@ -162,9 +162,9 @@ public class VpnDock extends AppCompatActivity implements NavItemClickListener {
 
         servers.add(new Server("United States",
                 Utils.getImgURL(R.drawable.usa_flag),
-                "us.ovpn",
+                "usa.ovpn",
                 "freeopenvpn",
-                "108927705"
+                "277533018"
         ));
         servers.add(new Server("Japan",
                 Utils.getImgURL(R.drawable.japan),

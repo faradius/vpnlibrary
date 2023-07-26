@@ -53,7 +53,7 @@ public class OAuthService extends AppCompatActivity {
 
         // Initialize sign in options the client-id is copied form google-services.json file
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("1094407803885-gdih713nm1hkl31a2vbg8bgbc26srhu4.apps.googleusercontent.com")
+                .requestIdToken("303551956518-iift9k0v1bee1944femq1a9an3fu48b3.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
 

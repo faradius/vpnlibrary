@@ -71,15 +71,18 @@ public class VpnDock extends AppCompatActivity implements NavItemClickListener {
 
         ImageButton menuRight = findViewById(R.id.navbar_right);
 
+        //Definiendo el toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        //Navigation Drawer de la derecha
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
 
+        //Activación del click del navigation drawer
         menuRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,6 +90,7 @@ public class VpnDock extends AppCompatActivity implements NavItemClickListener {
             }
         });
 
+        //Parte del icono hamburguesa
         PopupMenu popupMenu = new PopupMenu(this, navbar_left);
         popupMenu.getMenuInflater().inflate(R.menu.nav_menu, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -95,6 +99,7 @@ public class VpnDock extends AppCompatActivity implements NavItemClickListener {
                 return true;
             }
         });
+        //Activación del onclick del navbar del icono hamburguesa
         navbar_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,6 +116,7 @@ public class VpnDock extends AppCompatActivity implements NavItemClickListener {
             serverListRv.setAdapter(serverListRVAdapter);
         }
 
+        //Es una validación para el uso de la notificaciones
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             NotificationChannel chan = new NotificationChannel("openvpn_newstat", "VPN foreground service", NotificationManager.IMPORTANCE_NONE);
             chan.setLightColor(Color.BLUE);
@@ -138,7 +144,7 @@ public class VpnDock extends AppCompatActivity implements NavItemClickListener {
         serverListRv.setLayoutManager(new LinearLayoutManager(this));
 
         serverLists = getServerList();
-        changeServer = (ChangeServer) fragment;
+//        changeServer = (ChangeServer) fragment;
 
     }
 
@@ -162,9 +168,9 @@ public class VpnDock extends AppCompatActivity implements NavItemClickListener {
 
         servers.add(new Server("United States",
                 Utils.getImgURL(R.drawable.usa_flag),
-                "usae.ovpn",
+                "german.ovpn",
                 "freeopenvpn",
-                "356131106"
+                "422061955"
         ));
         servers.add(new Server("Japan",
                 Utils.getImgURL(R.drawable.japan),

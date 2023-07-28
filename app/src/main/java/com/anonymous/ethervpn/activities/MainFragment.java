@@ -15,6 +15,7 @@ import android.os.RemoteException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -43,7 +44,7 @@ import de.blinkt.openvpn.api.IOpenVPNAPIService;
 import de.blinkt.openvpn.api.IOpenVPNStatusCallback;
 import de.blinkt.openvpn.core.VpnStatus;
 
-public class MainFragment extends Fragment implements View.OnClickListener, ChangeServer, Handler.Callback {
+public class MainFragment extends Fragment {
 
     private Server server;
     private CheckInternetConnection connection;
@@ -91,28 +92,45 @@ public class MainFragment extends Fragment implements View.OnClickListener, Chan
         server = preference.getServer();
 
         // Update current selected server icon
-        updateCurrentServerIcon(server.getFlagUrl());
+//        updateCurrentServerIcon(server.getFlagUrl());
 
         connection = new CheckInternetConnection();
 
-        status("connect");
+//        status("connect");
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        binding.vpnBtn.setOnClickListener(this);
+        binding.switchVPN.setChecked(false);
+        binding.switchVPN.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked){
+                    try{
+                        prepareVpn();
+                    } catch(RemoteException e){
+                        logger.log("openvpn initialization failed: " + e.getMessage());
+                        e.printStackTrace();
+                    }
+                }else {
+                    if (vpnStart) {
+                        confirmDisconnect();
+                    }
+                }
+            }
+        });
+        /*binding.vpnBtn.setOnClickListener(this);*/
 
         // Checking is vpn already running or not
-        isServiceRunning();
+//        isServiceRunning();
         VpnStatus.initLogCache(getActivity().getCacheDir());
     }
 
     /**
      * @param v: click listener view
      */
-    @Override
+    /*@Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.vpnBtn:
@@ -128,7 +146,7 @@ public class MainFragment extends Fragment implements View.OnClickListener, Chan
                     }
                 }
         }
-    }
+    }*/
 
     /**
      * Show show disconnect confirm dialog
@@ -170,7 +188,7 @@ public class MainFragment extends Fragment implements View.OnClickListener, Chan
                 }
 
                 // Update confection status
-                status("connecting");
+//                status("connecting");
 
             } else {
                 System.out.println("you have no internet connection !!");
@@ -188,7 +206,7 @@ public class MainFragment extends Fragment implements View.OnClickListener, Chan
     public boolean stopVpn() {
         try {
             mService.disconnect();
-            status("connect");
+//            status("connect");
             vpnStart = false;
             return true;
         } catch (RemoteException e) {
@@ -227,9 +245,9 @@ public class MainFragment extends Fragment implements View.OnClickListener, Chan
     /**
      * Get service status
      */
-    public void isServiceRunning() {
+    /*public void isServiceRunning() {
         setStatus((String) binding.logTv.getText());
-    }
+    }*/
 
     /**
      * Start the VPN
@@ -257,7 +275,7 @@ public class MainFragment extends Fragment implements View.OnClickListener, Chan
             auth_failed = false;
 
             // Update log
-            binding.logTv.setText("Connecting...");
+//            binding.logTv.setText("Connecting...");
 
         } catch (IOException | RemoteException e) {
             logger.log("openvpn server connection failed: " + e.getMessage());
@@ -273,24 +291,24 @@ public class MainFragment extends Fragment implements View.OnClickListener, Chan
         if (connectionState!= null)
             switch (connectionState) {
                 case "NOPROCESS":
-                    binding.logTv.setText("No network connection");
+//                    binding.logTv.setText("No network connection");
                     vpnStart = false;
                     break;
                 case "CONNECTED":
                     vpnStart = true;// it will use after restart this activity
-                    status("connected");
-                    binding.logTv.setText("");
+//                    status("connected")
+//                    binding.logTv.setText("");
                     break;
                 case "WAIT":
-                    status("connecting");
-                    binding.logTv.setText("Waiting for server connection!!");
+//                    status("connecting");
+//                    binding.logTv.setText("Waiting for server connection!!");
                     break;
                 case "AUTH":
-                    status("connecting");
-                    binding.logTv.setText("Server authenticating!!");
+//                    status("connecting");
+//                    binding.logTv.setText("Server authenticating!!");
                     break;
                 case "CONNECTRETRY":
-                    status("retry");
+//                    status("retry");
                     try{
                         mService.disconnect();
                     } catch (RemoteException ex){
@@ -300,12 +318,12 @@ public class MainFragment extends Fragment implements View.OnClickListener, Chan
 
                     break;
                 case "AUTH_FAILED":
-                    status("retry");
-                    binding.logTv.setText("Authorization failed!!");
+//                    status("retry");
+//                    binding.logTv.setText("Authorization failed!!");
                     break;
                 case "EXITING":
-                    status("connect");
-                    binding.logTv.setText("Unable to connect to server!!");
+//                    status("connect");
+//                    binding.logTv.setText("Unable to connect to server!!");
                     break;
                 default:
                     vpnStart = false;
@@ -318,51 +336,50 @@ public class MainFragment extends Fragment implements View.OnClickListener, Chan
      * Change button background color and text
      * @param status: VPN current status
      */
-    public void status(String status) {
+ /*   public void status(String status) {
 
         if (status.equals("connect")) {
             binding.vpnBtn.setText(getContext().getString(R.string.connect));
-            binding.connectionStateTv.setText("state: NONE");
-            binding.durationTv.setText("duration: 00:00:00");
+//            binding.connectionStateTv.setText("state: NONE");
+//            binding.durationTv.setText("duration: 00:00:00");
         } else if (status.equals("connected")) {
             binding.vpnBtn.setText(getContext().getString(R.string.disconnect));
         } else if (status.equals("connecting")) {
             binding.vpnBtn.setText(getContext().getString(R.string.connecting));
         } else if (status.equals("retry")) {
             binding.vpnBtn.setText(getContext().getString(R.string.retry));
-            binding.connectionStateTv.setText("state: NONE");
-            binding.durationTv.setText("duration: 00:00:00");
+//            binding.connectionStateTv.setText("state: NONE");
+//            binding.durationTv.setText("duration: 00:00:00");
         }
 
-    }
+    }*/
 
     /**
      * Update status UI
      * @param state: running time
      */
-    public void updateConnectionStatus(String state) {
+   /* public void updateConnectionStatus(String state) {
         if(!("NOPROCESS").equals(state))
             binding.connectionStateTv.setText("state: " + state);
-    }
+    }*/
 
     /**
      * VPN server country icon change
      * @param serverIcon: icon URL
      */
-    public void updateCurrentServerIcon(String serverIcon) {
+    /*public void updateCurrentServerIcon(String serverIcon) {
         Glide.with(getContext())
                 .load(serverIcon)
                 .into(binding.selectedServerIcon);
-    }
+    }*/
 
     /**
      * Change server when user select new server
-     * @param server ovpn server details
      */
-    @Override
+   /* @Override
     public void newServer(Server server) {
         this.server = server;
-        updateCurrentServerIcon(server.getFlagUrl());
+//        updateCurrentServerIcon(server.getFlagUrl());
 
         // Stop previous connection
         if (vpnStart) {
@@ -376,26 +393,26 @@ public class MainFragment extends Fragment implements View.OnClickListener, Chan
             e.printStackTrace();
         }
 
-    }
+    }*/
 
     @Override
     public void onStart() {
         super.onStart();
 
-        mHandler = new Handler(this);
+//        mHandler = new Handler(this);
         bindService();
     }
 
-    private TimerService.TimerServiceCallback mTimerServiceCallback = new TimerService.TimerServiceCallback() {
+    /*private TimerService.TimerServiceCallback mTimerServiceCallback = new TimerService.TimerServiceCallback() {
         @Override
         public void onDurationChanged(String duration) {
             // Update UI with new duration value
             if(mBound)
                 binding.durationTv.setText("duration: " + duration);
         }
-    };
+    };*/
 
-    private ServiceConnection mTimerServiceConnection = new ServiceConnection() {
+    /*private ServiceConnection mTimerServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
             // This will be called when the service is connected
@@ -410,7 +427,7 @@ public class MainFragment extends Fragment implements View.OnClickListener, Chan
             // This will be called when the service is disconnected unexpectedly
             mBound = false;
         }
-    };
+    };*/
 
     private IOpenVPNStatusCallback mCallback = new IOpenVPNStatusCallback.Stub() {
         /**
@@ -423,7 +440,7 @@ public class MainFragment extends Fragment implements View.OnClickListener, Chan
 
         @Override
         public void newStatus(String uuid, String state, String message, String level) throws RemoteException {
-            Message msg = Message.obtain(mHandler, MSG_UPDATE_STATE, state + "|" + message);
+//            Message msg = Message.obtain(mHandler, MSG_UPDATE_STATE, state + "|" + message);
 
             if (state.equals("AUTH_FAILED") || state.equals("CONNECTRETRY")){
                 auth_failed = true;
@@ -431,16 +448,16 @@ public class MainFragment extends Fragment implements View.OnClickListener, Chan
             if(!auth_failed){
                 try {
                     setStatus(state);
-                    updateConnectionStatus(state);
+//                    updateConnectionStatus(state);
                 } catch (Exception e) {
                     logger.log("openvpn status callback failed: " + e.getMessage());
                     e.printStackTrace();
                 }
-                msg.sendToTarget();
+//                msg.sendToTarget();
             }
 
             if(auth_failed) {
-                binding.logTv.setText("AUTHORIZATION FAILED!!");
+//                binding.logTv.setText("AUTHORIZATION FAILED!!");
                 setStatus("CONNECTRETRY");
             }
             if (state.equals("CONNECTED")) {
@@ -448,9 +465,9 @@ public class MainFragment extends Fragment implements View.OnClickListener, Chan
                 if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, NOTIFICATIONS_PERMISSION_REQUEST_CODE);
                 }
-                bindTimerService();
+//                bindTimerService();
             } else {
-                unbindTimerService();
+//                unbindTimerService();
             }
 
         }
@@ -504,11 +521,11 @@ public class MainFragment extends Fragment implements View.OnClickListener, Chan
 
     }
 
-    private void bindTimerService() {
+    /*private void bindTimerService() {
         Intent serviceIntent = new Intent(getActivity(), TimerService.class);
         serviceIntent.setPackage("com.anonymous.ethervpn");
         getActivity().bindService(serviceIntent, mTimerServiceConnection, Context.BIND_AUTO_CREATE);
-    }
+    }*/
 
     @Override
     public void onResume() {
@@ -542,18 +559,18 @@ public class MainFragment extends Fragment implements View.OnClickListener, Chan
         getActivity().unbindService(mConnection);
     }
 
-    private void unbindTimerService(){
+  /*  private void unbindTimerService(){
         if(mBound){
         getActivity().unbindService(mTimerServiceConnection);
         mBound = false;
         }
-    }
+    }*/
 
-    @Override
+   /* @Override
     public boolean handleMessage(@NonNull Message msg) {
         if(msg.what == MSG_UPDATE_STATE) {
-            binding.logTv.setText((CharSequence) msg.obj);
+//            binding.logTv.setText((CharSequence) msg.obj);
         }
         return true;
-    }
+    }*/
 }

@@ -68,7 +68,7 @@ public class MainFragment extends Fragment {
         return view;
     }
 
-    private static final int MSG_UPDATE_STATE = 0;
+//    private static final int MSG_UPDATE_STATE = 0;
 
     private static final int ICS_OPENVPN_PERMISSION = 7;
 
@@ -76,11 +76,11 @@ public class MainFragment extends Fragment {
 
     protected IOpenVPNAPIService mService = null;
 
-    protected TimerService mTimerService = null;
+    /*protected TimerService mTimerService = null;
 
     boolean mBound = false;
 
-    private Handler mHandler;
+    private Handler mHandler;*/
 
     private Boolean auth_failed = false;
 

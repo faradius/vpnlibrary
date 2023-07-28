@@ -41,7 +41,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
-public class VpnDock extends AppCompatActivity implements NavItemClickListener {
+public class VpnDock extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
     GoogleSignInClient googleSignInClient;
@@ -65,56 +65,56 @@ public class VpnDock extends AppCompatActivity implements NavItemClickListener {
         initializeAll();
         sharedPreferences = getSharedPreferences("appPreferences",MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        firebaseAuth = FirebaseAuth.getInstance();
+        /*firebaseAuth = FirebaseAuth.getInstance();
 
-        googleSignInClient = GoogleSignIn.getClient(VpnDock.this, GoogleSignInOptions.DEFAULT_SIGN_IN);
+        googleSignInClient = GoogleSignIn.getClient(VpnDock.this, GoogleSignInOptions.DEFAULT_SIGN_IN);*/
 
-        ImageButton menuRight = findViewById(R.id.navbar_right);
+       /* ImageButton menuRight = findViewById(R.id.navbar_right);*/
 
         //Definiendo el toolbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        /*Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);*/
 
         //Navigation Drawer de la derecha
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        /*ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);*/
 
         //Activación del click del navigation drawer
-        menuRight.setOnClickListener(new View.OnClickListener() {
+        /*menuRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 closeDrawer();
             }
-        });
+        });*/
 
         //Parte del icono hamburguesa
-        PopupMenu popupMenu = new PopupMenu(this, navbar_left);
-        popupMenu.getMenuInflater().inflate(R.menu.nav_menu, popupMenu.getMenu());
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+        /*PopupMenu popupMenu = new PopupMenu(this, navbar_left);
+        popupMenu.getMenuInflater().inflate(R.menu.nav_menu, popupMenu.getMenu());*/
+        /*popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
                 onMenuOptionSelected(item);
                 return true;
             }
-        });
-        //Activación del onclick del navbar del icono hamburguesa
+        });*/
+        /*//Activación del onclick del navbar del icono hamburguesa
         navbar_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 popupMenu.show();
             }
-        });
+        });*/
 
         transaction.add(R.id.container, fragment);
         transaction.commit();
 
-        // Server List recycler view initialize
+        /*// Server List recycler view initialize
         if (serverLists != null) {
             serverListRVAdapter = new ServerListRVAdapter(serverLists, this);
             serverListRv.setAdapter(serverListRVAdapter);
-        }
+        }*/
 
         //Es una validación para el uso de la notificaciones
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -134,16 +134,16 @@ public class VpnDock extends AppCompatActivity implements NavItemClickListener {
      * Initialize all object, listener etc
      */
     private void initializeAll() {
-        drawer = findViewById(R.id.drawer_layout);
-        navbar_left = findViewById(R.id.navbar_left);
+    /*    drawer = findViewById(R.id.drawer_layout);
+        navbar_left = findViewById(R.id.navbar_left);*/
 
         fragment = new MainFragment();
-        serverListRv = findViewById(R.id.serverListRv);
+        /*serverListRv = findViewById(R.id.serverListRv);
         serverListRv.setHasFixedSize(true);
 
-        serverListRv.setLayoutManager(new LinearLayoutManager(this));
+        serverListRv.setLayoutManager(new LinearLayoutManager(this));*/
 
-        serverLists = getServerList();
+       /* serverLists = getServerList();*/
 //        changeServer = (ChangeServer) fragment;
 
     }
@@ -151,18 +151,18 @@ public class VpnDock extends AppCompatActivity implements NavItemClickListener {
     /**
      * Close navigation drawer
      */
-    public void closeDrawer(){
+   /* public void closeDrawer(){
         if (drawer.isDrawerOpen(GravityCompat.END)) {
             drawer.closeDrawer(GravityCompat.END);
         } else {
             drawer.openDrawer(GravityCompat.END);
         }
-    }
+    }*/
 
     /**
      * Generate server array list
      */
-    private ArrayList getServerList() {
+    /*private ArrayList getServerList() {
 
         ArrayList<Server> servers = new ArrayList<>();
 
@@ -217,18 +217,18 @@ public class VpnDock extends AppCompatActivity implements NavItemClickListener {
 
         return servers;
     }
-
+*/
     /**
      * On navigation item click, close drawer and change server
      * @param index: server index
      */
-    @Override
+  /*  @Override
     public void clickedItem(int index) {
         closeDrawer();
         changeServer.newServer(serverLists.get(index));
-    }
+    }*/
 
-    private boolean onMenuOptionSelected(MenuItem item) {
+    /*private boolean onMenuOptionSelected(MenuItem item) {
         int id = item.getItemId();
 
         if(id == R.id.nav_about_us){
@@ -259,5 +259,5 @@ public class VpnDock extends AppCompatActivity implements NavItemClickListener {
             return true;
         }
         return true;
-    }
+    }*/
 }

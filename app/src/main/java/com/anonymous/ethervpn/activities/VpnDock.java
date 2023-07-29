@@ -107,6 +107,7 @@ public class VpnDock extends AppCompatActivity {
             }
         });*/
 
+        fragment = new MainFragment();
         transaction.add(R.id.container, fragment);
         transaction.commit();
 
@@ -137,7 +138,7 @@ public class VpnDock extends AppCompatActivity {
     /*    drawer = findViewById(R.id.drawer_layout);
         navbar_left = findViewById(R.id.navbar_left);*/
 
-        fragment = new MainFragment();
+//        fragment = new MainFragment();
         /*serverListRv = findViewById(R.id.serverListRv);
         serverListRv.setHasFixedSize(true);
 

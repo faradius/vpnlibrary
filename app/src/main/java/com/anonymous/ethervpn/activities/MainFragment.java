@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,7 +32,7 @@ import com.anonymous.ethervpn.utilities.CheckInternetConnection;
 import com.anonymous.ethervpn.utilities.SharedPreference;
 import com.bumptech.glide.Glide;
 import com.anonymous.ethervpn.R;
-import com.anonymous.ethervpn.databinding.FragmentMainBinding;
+//import com.anonymous.ethervpn.databinding.FragmentMainBinding;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.io.BufferedReader;
@@ -52,17 +53,14 @@ public class MainFragment extends Fragment {
     boolean vpnStart = false;
     private SharedPreference preference;
 
-    private FragmentMainBinding binding;
+//    private FragmentMainBinding binding;
 
-    FirebaseCrashlytics logger = FirebaseCrashlytics.getInstance();
+//    FirebaseCrashlytics logger = FirebaseCrashlytics.getInstance();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false);
-
-        View view = binding.getRoot();
+        View view = inflater.inflate(R.layout.fragment_main, container, false);
         initializeAll();
 
         return view;
@@ -102,15 +100,16 @@ public class MainFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.switchVPN.setChecked(false);
-        binding.switchVPN.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        Switch switchVPN = view.findViewById(R.id.switchVPN);
+        switchVPN.setChecked(false);
+        switchVPN.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (isChecked){
                     try{
                         prepareVpn();
                     } catch(RemoteException e){
-                        logger.log("openvpn initialization failed: " + e.getMessage());
+//                        logger.log("openvpn initialization failed: " + e.getMessage());
                         e.printStackTrace();
                     }
                 }else {
@@ -210,7 +209,7 @@ public class MainFragment extends Fragment {
             vpnStart = false;
             return true;
         } catch (RemoteException e) {
-            logger.log("openvpn disconnect failed: " + e.getMessage());
+//            logger.log("openvpn disconnect failed: " + e.getMessage());
             e.printStackTrace();
         }
 
@@ -228,7 +227,7 @@ public class MainFragment extends Fragment {
             try {
                 mService.registerStatusCallback(mCallback);
             } catch (RemoteException e) {
-                logger.log("openvpn status callback failed: " + e.getMessage());
+//                logger.log("openvpn status callback failed: " + e.getMessage());
                 e.printStackTrace();
             }
 
@@ -278,7 +277,7 @@ public class MainFragment extends Fragment {
 //            binding.logTv.setText("Connecting...");
 
         } catch (IOException | RemoteException e) {
-            logger.log("openvpn server connection failed: " + e.getMessage());
+//            logger.log("openvpn server connection failed: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -312,7 +311,7 @@ public class MainFragment extends Fragment {
                     try{
                         mService.disconnect();
                     } catch (RemoteException ex){
-                        logger.log("openvpn server disconnect failed: " + ex.getMessage());
+//                        logger.log("openvpn server disconnect failed: " + ex.getMessage());
                         ex.printStackTrace();
                     }
 
@@ -450,7 +449,7 @@ public class MainFragment extends Fragment {
                     setStatus(state);
 //                    updateConnectionStatus(state);
                 } catch (Exception e) {
-                    logger.log("openvpn status callback failed: " + e.getMessage());
+//                    logger.log("openvpn status callback failed: " + e.getMessage());
                     e.printStackTrace();
                 }
 //                msg.sendToTarget();
@@ -499,7 +498,7 @@ public class MainFragment extends Fragment {
                 }
 
             } catch (RemoteException e) {
-                logger.log("openvpn service connection failed: " + e.getMessage());
+//                logger.log("openvpn service connection failed: " + e.getMessage());
                 e.printStackTrace();
             }
         }

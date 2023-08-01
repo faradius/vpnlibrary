@@ -57,4 +57,17 @@ public class SharedPreference {
 
         return server;
     }
+
+    public Server getServerFreeVPN() {
+
+        Server server = new Server(
+                mPreference.getString(SERVER_COUNTRY,"RUSIA"),
+                mPreference.getString(SERVER_FLAG,getImgURL(R.drawable.usa_flag)),
+                mPreference.getString(SERVER_OVPN, "rus.ovpn"),
+                mPreference.getString(SERVER_OVPN_USER,"freeopenvpn"),
+                mPreference.getString(SERVER_OVPN_PASSWORD,"954100952")
+        );
+
+        return server;
+    }
 }

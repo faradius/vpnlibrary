@@ -7,10 +7,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import androidx.fragment.app.Fragment;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
 import android.os.RemoteException;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,22 +17,14 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 
-import com.anonymous.ethervpn.interfaces.ChangeServer;
+import com.anonymous.ethervpn.R;
 import com.anonymous.ethervpn.model.Server;
-import com.anonymous.ethervpn.services.TimerService;
 import com.anonymous.ethervpn.utilities.CheckInternetConnection;
 import com.anonymous.ethervpn.utilities.SharedPreference;
-import com.bumptech.glide.Glide;
-import com.anonymous.ethervpn.R;
-//import com.anonymous.ethervpn.databinding.FragmentMainBinding;
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -101,7 +92,7 @@ public class MainFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Switch switchVPN = view.findViewById(R.id.switchVPN);
-        switchVPN.setChecked(false);
+//        switchVPN.setChecked(false);
         switchVPN.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {

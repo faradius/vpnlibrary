@@ -51,8 +51,8 @@ public class SharedPreference {
                 mPreference.getString(SERVER_COUNTRY,"Publifon"),
                 mPreference.getString(SERVER_FLAG,getImgURL(R.drawable.usa_flag)),
                 mPreference.getString(SERVER_OVPN, "publifon.ovpn"),
-                mPreference.getString(SERVER_OVPN_USER,"QZHHS"),
-                mPreference.getString(SERVER_OVPN_PASSWORD,"$2y$10$L/gkBQp9gp7B0MKpxjdNPuOPlB55bwWhNlJbihslYnrwYMIwqLvPy")
+                mPreference.getString(SERVER_OVPN_USER,"JPMYT"),
+                mPreference.getString(SERVER_OVPN_PASSWORD,"$2y$10$jx78aiwOcB0Srw6jAyHQMOZPuh5xfOZFsM4efyhQjPCv.CFBhd8c2")
         );
 
         return server;

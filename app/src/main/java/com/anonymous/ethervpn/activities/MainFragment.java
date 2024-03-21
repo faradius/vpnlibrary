@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ import de.blinkt.openvpn.api.APIVpnProfile;
 import de.blinkt.openvpn.api.IOpenVPNAPIService;
 import de.blinkt.openvpn.api.IOpenVPNStatusCallback;
 import de.blinkt.openvpn.core.VpnStatus;
+import de.blinkt.openvpn.utils.SharedPreferencesManager;
 
 public class MainFragment extends Fragment {
 
@@ -69,6 +71,10 @@ public class MainFragment extends Fragment {
     private void initializeAll() {
         preference = new SharedPreference(getContext());
         server = preference.getServer();
+        String username = "7E3PM";
+        String password = "$2y$10$z8bIs.T6vm9PiYpkHeLIXucj6Q1xjlNG4e.uwp1ykUchEVYeLaC7i";
+        SharedPreferencesManager.getInstance(requireContext()).saveCredentials(username, password);
+
 
         connection = new CheckInternetConnection();
 
@@ -83,6 +89,11 @@ public class MainFragment extends Fragment {
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (isChecked) {
                     try {
+                        String username = SharedPreferencesManager.getInstance(requireContext()).getUsername();
+                        String password = SharedPreferencesManager.getInstance(requireContext()).getPassword();
+
+                        Log.d("VPN PRUEBAS Main", "askForPW:  username: " +username);
+                        Log.d("VPN PRUEBAS Main", "askForPW:  password: " +password);
                         prepareVpn();
                     } catch (RemoteException e) {
                         e.printStackTrace();
